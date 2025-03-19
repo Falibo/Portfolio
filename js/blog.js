@@ -3,23 +3,21 @@ document.addEventListener('DOMContentLoaded', function() {
   const filterButtons = document.querySelectorAll('[data-filter]');
   let blogPosts = [];
 
-  // Fetch blog posts from JSON file
-  fetch('../assets/data/blogs.json')
-    .then(response => response.json())
-    .then(data => {
-      blogPosts = data;
-      displayPosts(blogPosts);
-      setupFilters();
-    })
-    .catch(error => {
-      console.error('Error loading blog posts:', error);
-      blogPostsContainer.innerHTML = `
-        <div class="error-message">
-          <h3>Oops! Something went wrong.</h3>
-          <p>Unable to load blog posts. Please try again later.</p>
-        </div>
-      `;
-    });
+  // Use the data directly from blogs.js instead of fetching
+  try {
+    // Make sure blogPostsData is available from the included blogs.js file
+    blogPosts = blogPostsData;
+    displayPosts(blogPosts);
+    setupFilters();
+  } catch (error) {
+    console.error('Error loading blog posts:', error);
+    blogPostsContainer.innerHTML = `
+      <div class="error-message">
+        <h3>Oops! Something went wrong.</h3>
+        <p>Unable to load blog posts. Please check if blogs.js is properly included.</p>
+      </div>
+    `;
+  }
 
   // Display posts in the container
   function displayPosts(posts) {
